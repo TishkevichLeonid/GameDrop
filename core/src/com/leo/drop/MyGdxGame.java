@@ -9,9 +9,11 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.TimeUtils;
 
 public class MyGdxGame extends ApplicationAdapter {
 	OrthographicCamera camera;
@@ -48,7 +50,13 @@ public class MyGdxGame extends ApplicationAdapter {
 	}
 
 	private void spawnRainDrop(){
-		
+		Rectangle rainDrop = new Rectangle();
+		rainDrop.x = MathUtils.random(0, 800-64);
+		rainDrop.y = 480;
+		rainDrop.width = 64;
+		rainDrop.height = 64;
+		raindrops.add(rainDrop);
+		lastDropTime = TimeUtils.nanoTime();
 	}
 
 	@Override
