@@ -51,17 +51,17 @@ public class MyGdxGame extends ApplicationAdapter {
 		bucket.height = 64;
 
 		raindrops = new Array<Rectangle>();
-		spawnRainDrop();
+		spawnRaindrop();
 
 	}
 
-	private void spawnRainDrop(){
-		Rectangle rainDrop = new Rectangle();
-		rainDrop.x = MathUtils.random(0, 800-64);
-		rainDrop.y = 480;
-		rainDrop.width = 64;
-		rainDrop.height = 64;
-		raindrops.add(rainDrop);
+	private void spawnRaindrop(){
+		Rectangle raindrop = new Rectangle();
+		raindrop.x = MathUtils.random(0, 800 - 64);
+		raindrop.y = 480;
+		raindrop.width = 64;
+		raindrop.height = 64;
+		raindrops.add(raindrop);
 		lastDropTime = TimeUtils.nanoTime();
 	}
 
@@ -93,14 +93,14 @@ public class MyGdxGame extends ApplicationAdapter {
 		if (bucket.x < 0) bucket.x = 0;
 		if (bucket.x > 800-64) bucket.x = 800 - 64;
 
-		if (TimeUtils.nanoTime() - lastDropTime > 1000000000) spawnRainDrop();
+		if (TimeUtils.nanoTime() - lastDropTime > 1000000000) spawnRaindrop();
 
 		Iterator<Rectangle> iter = raindrops.iterator();
 
 		while (iter.hasNext()){
 			Rectangle raindrop = iter.next();
 			raindrop.y -= 200 * Gdx.graphics.getDeltaTime();
-			if (raindrop.y + 64 >0) iter.remove();
+			if (raindrop.y + 64 < 0) iter.remove();
 			if (raindrop.overlaps(bucket)) {
 				dropSound.play();
 				iter.remove();
@@ -117,8 +117,6 @@ public class MyGdxGame extends ApplicationAdapter {
 		bucketImage.dispose();
 		dropSound.dispose();
 		rainMusic.dispose();
-		batch.dispose();
-
 
 	}
 }
