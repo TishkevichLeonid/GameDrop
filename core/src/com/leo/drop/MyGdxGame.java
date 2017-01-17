@@ -75,7 +75,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		batch.draw(bucketImage, bucket.x, bucket.y);
-		for(Rectangle raindrop : raindrops){
+		for(Rectangle raindrop: raindrops){
 			 batch.draw(dropImage, raindrop.x, raindrop.y);
 
 		}
@@ -84,17 +84,19 @@ public class MyGdxGame extends ApplicationAdapter {
 		if (Gdx.input.isTouched()){
 			touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 			camera.unproject(touchPos);
-			bucket.x = touchPos.x - 64 / 2;
+			bucket.x = (int) (touchPos.x - 64 / 2);
 		}
 
 		if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) bucket.x -= 200 * Gdx.graphics.getDeltaTime();
 		if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) bucket.x += 200 * Gdx.graphics.getDeltaTime();
 
-		if (bucket.x > 0) bucket.x = 0;
-		if (bucket.x < 800) bucket.x = 800 - 64;
+		if (bucket.x < 0) bucket.x = 0;
+		if (bucket.x > 800-64) bucket.x = 800 - 64;
 
 		if (TimeUtils.nanoTime() - lastDropTime > 1000000000) spawnRainDrop();
+
 		Iterator<Rectangle> iter = raindrops.iterator();
+
 		while (iter.hasNext()){
 			Rectangle raindrop = iter.next();
 			raindrop.y -= 200 * Gdx.graphics.getDeltaTime();
@@ -109,8 +111,14 @@ public class MyGdxGame extends ApplicationAdapter {
 	
 	@Override
 	public void dispose () {
+		super.dispose();
 		batch.dispose();
 		dropImage.dispose();
+		bucketImage.dispose();
+		dropSound.dispose();
+		rainMusic.dispose();
+		batch.dispose();
+
 
 	}
 }
