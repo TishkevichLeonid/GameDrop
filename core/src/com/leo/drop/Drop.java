@@ -11,7 +11,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Drop extends Game { // наследуем от класса Game
 
-    SpriteBatch batch; // объекст класса SpriteBatch, используется для отображения объектов на экране (текстуры)
+    SpriteBatch batch; // объекст класса SpriteBatch, используется для отображения объектов на экране (текстуры) (рисование 2d объектов)
     BitmapFont font; // используется для отображения текста на экране
 
     @Override

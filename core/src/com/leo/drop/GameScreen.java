@@ -20,13 +20,13 @@ import java.util.Iterator;
 
 public class GameScreen implements Screen {  //релизуем интрефейс Screen
 	final Drop game;
-	OrthographicCamera camera;
+	OrthographicCamera camera;  // создаем поля для каждого ресурса, объявляя их типы
 	SpriteBatch batch;
 	Texture dropImage;
 	Texture bucketImage;
 	Sound dropSound;
 	Music rainMusic;
-	Rectangle bucket;
+	Rectangle bucket; // класс для сохранения позиции и размера ведра
 	Vector3 touchPos;
 	Array<Rectangle> raindrops;
 	long lastDropTime;
@@ -37,23 +37,23 @@ public class GameScreen implements Screen {  //релизуем интрефей
 
 		this.game = gam;
 
-		camera = new OrthographicCamera();
-		camera.setToOrtho(false, 800, 480);
+		camera = new OrthographicCamera(); // создали камеру
+		camera.setToOrtho(false, 800, 480); // метод, который позволяет убедиться что камера всегда показывает область мира игры размером 800x400
 		batch = new SpriteBatch();
-		dropImage = new Texture("droplet.png");
-		bucketImage = new Texture("bucket.png");
+		dropImage = new Texture("droplet.png"); // загрузка изображения капли
+		bucketImage = new Texture("bucket.png"); // загрузка изображения ведра
 		touchPos = new Vector3();
 
-		dropSound = Gdx.audio.newSound(Gdx.files.internal("waterdrop.wav"));
-		rainMusic = Gdx.audio.newMusic(Gdx.files.internal("undertreeinrain.mp3"));
+		dropSound = Gdx.audio.newSound(Gdx.files.internal("waterdrop.wav")); // загружаем звуковой эффект (продолжительность звука < 10c)
+		rainMusic = Gdx.audio.newMusic(Gdx.files.internal("undertreeinrain.mp3")); //
 
-		rainMusic.setLooping(true);
-		rainMusic.play();
+		rainMusic.setLooping(true); // организует повторение музыки
+		rainMusic.play(); // запускает при старте приложения
 
-		bucket = new Rectangle();
-		bucket.x = 800 / 2 - 64 / 2;
-		bucket.y = 20;
-		bucket.width = 64;
+		bucket = new Rectangle(); // создание объекта Rectangle
+		bucket.x = 800 / 2 - 64 / 2; // размещаем ведро в центре экрана
+		bucket.y = 20; // и выше на 20 пикселей низа экрана
+		bucket.width = 64; // размеры ведра
 		bucket.height = 64;
 
 		raindrops = new Array<Rectangle>();
@@ -73,15 +73,17 @@ public class GameScreen implements Screen {  //релизуем интрефей
 
 	@Override
 	public void render (float delta) {
-		Gdx.gl.glClearColor(0, 0, 0.2f, 1);
+		Gdx.gl.glClearColor(0, 0, 0.2f, 1); // очищаем экран в синий цвет
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		camera.update();
+		camera.update(); // обновление камеры (1 в кадр)
 
-		game.batch.setProjectionMatrix(camera.combined);
-		game.batch.begin();
+		game.batch.setProjectionMatrix(camera.combined); /** сообщаем Spritebatch что нужно использовать систему координат камеры
+		* это делается с помощью матрицы, то есть матрицы проекции, поле camera.combined является такой матрицей
+		*/
+		game.batch.begin(); // начинает новую batch серию
 		game.font.draw(game.batch, "Drops earned: " + dropsCollect, 0, 480);
-		game.batch.draw(bucketImage, bucket.x, bucket.y);
+		game.batch.draw(bucketImage, bucket.x, bucket.y); // отрисовываем наше ведро
 		for(Rectangle raindrop: raindrops){
 			game.batch.draw(dropImage, raindrop.x, raindrop.y);
 
