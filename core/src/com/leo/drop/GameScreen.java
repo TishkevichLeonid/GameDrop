@@ -18,7 +18,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 
 import java.util.Iterator;
 
-public class GameScreen implements Screen {
+public class GameScreen implements Screen {  //релизуем интрефейс Screen
 	final Drop game;
 	OrthographicCamera camera;
 	SpriteBatch batch;
@@ -33,7 +33,7 @@ public class GameScreen implements Screen {
 	int dropsCollect;
 	
 
-	public GameScreen (final Drop gam) {
+	public GameScreen (final Drop gam) {   //используем конструктор и передаем в него объект Drop
 
 		this.game = gam;
 

@@ -10,15 +10,19 @@ import com.badlogic.gdx.math.Rectangle;
  * Created by leonidtiskevic on 17.01.17.
  */
 
-public class MainMenuScreen implements Screen {
+public class MainMenuScreen implements Screen { // реализуем интерфейс Screen
+    /**
+     * Интерфейс Screen не предоставляет метода create, поэтому  вместо этого используется конструктор
+     * единственным необходимым параметром конструктора является экземпляр класса Drop
+     */
 
-    final Drop game;
-    OrthographicCamera camera;
+    final Drop game; // экземпляр класса Drop
+    OrthographicCamera camera; // экземпляр класса камера
 
-    public MainMenuScreen(Drop gam) {
-        this.game = gam;
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, 800, 480);
+    public MainMenuScreen(Drop gam) {       //
+        this.game = gam;                    //
+        camera = new OrthographicCamera();  // конструктор
+        camera.setToOrtho(false, 800, 480); //
     }
 
     @Override
