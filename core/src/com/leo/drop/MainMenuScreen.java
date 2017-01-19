@@ -19,10 +19,10 @@ public class MainMenuScreen implements Screen { // реализуем интер
     final Drop game; // экземпляр класса Drop
     OrthographicCamera camera; // экземпляр класса камера
 
-    public MainMenuScreen(Drop gam) {       //
+    public MainMenuScreen(Drop gam) {       // конструктор
         this.game = gam;                    //
-        camera = new OrthographicCamera();  // конструктор
-        camera.setToOrtho(false, 800, 480); //
+        camera = new OrthographicCamera();  // создаем объект класса камера
+        camera.setToOrtho(false, 800, 480); // устанавливаем параметры для камеры
     }
 
     @Override
