@@ -19,18 +19,18 @@ import com.badlogic.gdx.utils.TimeUtils;
 import java.util.Iterator;
 
 public class GameScreen implements Screen {  //релизуем интрефейс Screen
-	final Drop game;
-	OrthographicCamera camera;  // создаем поля для каждого ресурса, объявляя их типы
-	SpriteBatch batch;
-	Texture dropImage;
-	Texture bucketImage;
-	Sound dropSound;
-	Music rainMusic;
-	Rectangle bucket; // класс для сохранения позиции и размера ведра
-	Vector3 touchPos;
+	private final Drop game;
+	private OrthographicCamera camera;  // создаем поля для каждого ресурса, объявляя их типы
+	private SpriteBatch batch;
+	private Texture dropImage;
+	private Texture bucketImage;
+	private Sound dropSound;
+	private Music rainMusic;
+	private Rectangle bucket; // класс для сохранения позиции и размера ведра
+	Vector3 touchPos; // создаем вектор для считывания прикосновения
 	Array<Rectangle> raindrops;
 	long lastDropTime;
-	int dropsCollect;
+	private int dropsCollect;
 	
 
 	public GameScreen (final Drop gam) {   //используем конструктор и передаем в него объект Drop
@@ -90,10 +90,10 @@ public class GameScreen implements Screen {  //релизуем интрефей
 		}
 		game.batch.end();
 
-		if (Gdx.input.isTouched()){
-			touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-			camera.unproject(touchPos);
-			bucket.x = (int) (touchPos.x - 64 / 2);
+		if (Gdx.input.isTouched()){ //(есть ли приконсновение к экрану
+			touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0); // устанавливаем текущие координаты прикосновения
+			camera.unproject(touchPos); // преобразовние координат прикосновением в систему координат камеры unproject(вх: трехмерный вектор)
+			bucket.x = touchPos.x - 64 / 2; // изменяется позиция ведра, только по х и в центре прикосновения к экрану
 		}
 
 		if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) bucket.x -= 200 * Gdx.graphics.getDeltaTime();
