@@ -28,7 +28,7 @@ public class GameScreen implements Screen {  //релизуем интрефей
 	private Music rainMusic;
 	private Rectangle bucket; // класс для сохранения позиции и размера ведра
 	Vector3 touchPos; // создаем вектор для считывания прикосновения
-	Array<Rectangle> raindrops;
+	Array<Rectangle> raindrops; // список экземпляров Rectangle каждый из которых хранит позицию и размер капли
 	long lastDropTime;
 	private int dropsCollect;
 	
@@ -95,12 +95,15 @@ public class GameScreen implements Screen {  //релизуем интрефей
 			camera.unproject(touchPos); // преобразовние координат прикосновением в систему координат камеры unproject(вх: трехмерный вектор)
 			bucket.x = touchPos.x - 64 / 2; // изменяется позиция ведра, только по х и в центре прикосновения к экрану
 		}
+		/** метод isKeyPressed сообщает о нажатии определенной клавиши Keys содержит все коды клавиш, метод GetDeltaTime() возвращает время
+		 *  прошедшие между последним и текущим кадром в секундах
+		 */
 
 		if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) bucket.x -= 200 * Gdx.graphics.getDeltaTime();
 		if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) bucket.x += 200 * Gdx.graphics.getDeltaTime();
 
-		if (bucket.x < 0) bucket.x = 0;
-		if (bucket.x > 800-64) bucket.x = 800 - 64;
+		if (bucket.x < 0) bucket.x = 0; // убеждаемся что ведро остается в переделах экрана
+		if (bucket.x > 800-64) bucket.x = 800 - 64; // убеждаемся что ведро остается в переделах экрана [2]
 
 		if (TimeUtils.nanoTime() - lastDropTime > 1000000000) spawnRaindrop();
 
