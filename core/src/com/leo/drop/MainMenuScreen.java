@@ -40,13 +40,13 @@ public class MainMenuScreen implements Screen { // реализуем интер
 
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
-        game.font.draw(game.batch, "Earn all drops!", 100, 150);
+        game.font.draw(game.batch, "Collect all drops!", 100, 150);
         game.font.draw(game.batch, "Toutch to start", 100, 100);
         game.batch.end();
 
-        if (Gdx.input.isTouched()){
-            game.setScreen(new GameScreen(game));
-            dispose();
+        if (Gdx.input.isTouched()){ // проверяем было ли прикосновение к экрану
+            game.setScreen(new GameScreen(game)); // запускаем экран игры
+            dispose(); // освобождаем ресурс меню
         }
 
     }

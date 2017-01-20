@@ -56,19 +56,19 @@ public class GameScreen implements Screen {  //релизуем интрефей
 		bucket.width = 64; // размеры ведра
 		bucket.height = 64;
 
-		raindrops = new Array<Rectangle>();
-		spawnRaindrop();
+		raindrops = new Array<Rectangle>(); // создаем экземпляр массива капель
+		spawnRaindrop(); //  порождаем первую каплю
 
 	}
 
-	private void spawnRaindrop(){
+	private void spawnRaindrop(){ // метод создания капли. Создает новый Rectangle, устанавливает в слуйчаной позиции в верхней часте экрана и добавляет его в массив raindrops
 		Rectangle raindrop = new Rectangle();
-		raindrop.x = MathUtils.random(0, 800 - 64);
-		raindrop.y = 480;
+		raindrop.x = MathUtils.random(0, 800 - 64); // возвращается случайное число между 0 и 800-64
+		raindrop.y = 480; // верхняя граница экрана
 		raindrop.width = 64;
 		raindrop.height = 64;
 		raindrops.add(raindrop);
-		lastDropTime = TimeUtils.nanoTime();
+		lastDropTime = TimeUtils.nanoTime(); // записываем текущее время в наносекундах
 	}
 
 	@Override
@@ -82,9 +82,9 @@ public class GameScreen implements Screen {  //релизуем интрефей
 		* это делается с помощью матрицы, то есть матрицы проекции, поле camera.combined является такой матрицей
 		*/
 		game.batch.begin(); // начинает новую batch серию
-		game.font.draw(game.batch, "Drops earned: " + dropsCollect, 0, 480);
+		game.font.draw(game.batch, "Drops earned: " + dropsCollect, 0, 480); // сообщает о кол-ве пойманных капель
 		game.batch.draw(bucketImage, bucket.x, bucket.y); // отрисовываем наше ведро
-		for(Rectangle raindrop: raindrops){
+		for(Rectangle raindrop: raindrops){ // отображение капель на экране
 			game.batch.draw(dropImage, raindrop.x, raindrop.y);
 
 		}
@@ -105,18 +105,22 @@ public class GameScreen implements Screen {  //релизуем интрефей
 		if (bucket.x < 0) bucket.x = 0; // убеждаемся что ведро остается в переделах экрана
 		if (bucket.x > 800-64) bucket.x = 800 - 64; // убеждаемся что ведро остается в переделах экрана [2]
 
-		if (TimeUtils.nanoTime() - lastDropTime > 1000000000) spawnRaindrop();
+		if (TimeUtils.nanoTime() - lastDropTime > 1000000000) spawnRaindrop(); // проверяет сколько времени прошло с прошлой капли и создает новую если нужно
 
+		/**
+		 * сделаем так что бы капли двигались с постоянной скоростью 200 пикселей в секунду, если капля находится ниже нижнего края экрана
+		 * то мы ее удаляем из массива
+		 */
 		Iterator<Rectangle> iter = raindrops.iterator();
 
 		while (iter.hasNext()){
 			Rectangle raindrop = iter.next();
 			raindrop.y -= 200 * Gdx.graphics.getDeltaTime();
 			if (raindrop.y + 64 < 0) iter.remove();
-			if (raindrop.overlaps(bucket)) {
-				dropsCollect++;
-				dropSound.play();
-				iter.remove();
+			if (raindrop.overlaps(bucket)) { // если капля столкнулась с ведром overlaps проверяет пересечение треугольников
+				dropsCollect++; // пополняется счет собраных капель
+				dropSound.play(); // воспроизводится звук капли
+				iter.remove(); // капля удаляется из массива
 			}
 		}
 
