@@ -36,7 +36,8 @@ public class GameScreen implements Screen {  //релизуем интрефей
 	Array<Rectangle> raindrops; // список экземпляров Rectangle каждый из которых хранит позицию и размер капли
 	Array<Rectangle> hearts;
 	long lastDropTime;
-	private int dropsCollect;
+	static int dropsCollect;
+	private int dropsCollet1;
 	int i = 3;
 	
 
@@ -118,7 +119,7 @@ public class GameScreen implements Screen {  //релизуем интрефей
 		*/
 		game.batch.begin(); // начинает новую batch серию
 		game.batch.draw(backgorund, 0, 0);
-		game.font.draw(game.batch, "Drops collect: " + dropsCollect, 0, 480); // сообщает о кол-ве пойманных капель
+		game.font.draw(game.batch, "Drops collect: " + dropsCollet1, 0, 480); // сообщает о кол-ве пойманных капель
 		game.batch.draw(bucketImage, bucket.x, bucket.y); // отрисовываем наше ведро
 		for (Rectangle heart11 : hearts) {
 			game.batch.draw(heart1, heart11.x, heart11.y);
@@ -161,11 +162,13 @@ public class GameScreen implements Screen {  //релизуем интрефей
 			raindrop.y -= 200 * Gdx.graphics.getDeltaTime();
 			if (raindrop.y + 64 < 0) {iter.remove(); iter1.remove(); i--; }
 			if (i==0) {
+				dropsCollet1 = 0;
 				game.setScreen(new GameOverScreen(game));
 				dispose();
 			}
 			if (raindrop.overlaps(bucket)) { // если капля столкнулась с ведром overlaps проверяет пересечение треугольников
-				dropsCollect++; // пополняется счет собраных капель
+				dropsCollect++; // переменная для экрана gameover
+				dropsCollet1++;// пополняется счет собраных капель
 				dropSound.play(); // воспроизводится звук капли
 				iter.remove(); // капля удаляется из массива
 			}

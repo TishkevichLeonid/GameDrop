@@ -40,7 +40,8 @@ public class GameOverScreen implements Screen {
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
         game.batch.draw(gameOver, 0, 0);
-        game.font.draw(game.batch, "Toutch to start", 400, 100);
+        game.font.draw(game.batch, "Toutch to start", 330, 100);
+        game.font.draw(game.batch, "Your score is: " + GameScreen.dropsCollect, 325, 150);
         game.batch.end();
 
         if (Gdx.input.isTouched()){ // проверяем было ли прикосновение к экрану
