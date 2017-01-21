@@ -156,10 +156,12 @@ public class GameScreen implements Screen {  //релизуем интрефей
 
 
 
-		while (iter.hasNext() && iter1.hasNext()){
-			Rectangle heart = iter1.next();
+		while (iter.hasNext()) {
 			Rectangle raindrop = iter.next();
 			raindrop.y -= 200 * Gdx.graphics.getDeltaTime();
+			while (iter1.hasNext()) {
+				Rectangle heart = iter1.next();
+			}
 			if (raindrop.y + 64 < 0) {iter.remove(); iter1.remove(); i--; }
 			if (i==0) {
 				dropsCollet1 = 0;
