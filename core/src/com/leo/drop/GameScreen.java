@@ -24,6 +24,7 @@ public class GameScreen implements Screen {  //релизуем интрефей
 	private SpriteBatch batch;
 	private Texture dropImage;
 	private Texture bucketImage;
+	private final Texture backgorund;
 	private Sound dropSound;
 	private Music rainMusic;
 	private Rectangle bucket; // класс для сохранения позиции и размера ведра
@@ -42,6 +43,7 @@ public class GameScreen implements Screen {  //релизуем интрефей
 		batch = new SpriteBatch();
 		dropImage = new Texture("droplet.png"); // загрузка изображения капли
 		bucketImage = new Texture("bucket.png"); // загрузка изображения ведра
+		backgorund = new Texture("background.jpg"); // загрузка background
 		touchPos = new Vector3();
 
 		dropSound = Gdx.audio.newSound(Gdx.files.internal("waterdrop.wav")); // загружаем звуковой эффект (продолжительность звука < 10c)
@@ -82,7 +84,8 @@ public class GameScreen implements Screen {  //релизуем интрефей
 		* это делается с помощью матрицы, то есть матрицы проекции, поле camera.combined является такой матрицей
 		*/
 		game.batch.begin(); // начинает новую batch серию
-		game.font.draw(game.batch, "Drops earned: " + dropsCollect, 0, 480); // сообщает о кол-ве пойманных капель
+		game.batch.draw(backgorund, 0, 0);
+		game.font.draw(game.batch, "Drops collect: " + dropsCollect, 0, 480); // сообщает о кол-ве пойманных капель
 		game.batch.draw(bucketImage, bucket.x, bucket.y); // отрисовываем наше ведро
 		for(Rectangle raindrop: raindrops){ // отображение капель на экране
 			game.batch.draw(dropImage, raindrop.x, raindrop.y);
