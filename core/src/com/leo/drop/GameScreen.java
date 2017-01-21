@@ -19,22 +19,28 @@ import com.badlogic.gdx.utils.TimeUtils;
 import java.util.Iterator;
 
 public class GameScreen implements Screen {  //релизуем интрефейс Screen
-	private final Drop game;
+	final Drop game;
 	private OrthographicCamera camera;  // создаем поля для каждого ресурса, объявляя их типы
 	private SpriteBatch batch;
 	private Texture dropImage;
 	private Texture bucketImage;
 	private final Texture backgorund;
+	private Texture heart1;
+	private Rectangle heart11;
+	private Rectangle heart21;
+	private Rectangle heart31;
 	private Sound dropSound;
 	private Music rainMusic;
 	private Rectangle bucket; // класс для сохранения позиции и размера ведра
 	Vector3 touchPos; // создаем вектор для считывания прикосновения
 	Array<Rectangle> raindrops; // список экземпляров Rectangle каждый из которых хранит позицию и размер капли
+	Array<Rectangle> hearts;
 	long lastDropTime;
 	private int dropsCollect;
+	int i = 3;
 	
 
-	public GameScreen (final Drop gam) {   //используем конструктор и передаем в него объект Drop
+	public GameScreen(final Drop gam) {   //используем конструктор и передаем в него объект Drop
 
 		this.game = gam;
 
@@ -44,6 +50,7 @@ public class GameScreen implements Screen {  //релизуем интрефей
 		dropImage = new Texture("droplet.png"); // загрузка изображения капли
 		bucketImage = new Texture("bucket.png"); // загрузка изображения ведра
 		backgorund = new Texture("background.jpg"); // загрузка background
+		heart1 = new Texture("heart.png");
 		touchPos = new Vector3();
 
 		dropSound = Gdx.audio.newSound(Gdx.files.internal("waterdrop.wav")); // загружаем звуковой эффект (продолжительность звука < 10c)
@@ -52,16 +59,42 @@ public class GameScreen implements Screen {  //релизуем интрефей
 		rainMusic.setLooping(true); // организует повторение музыки
 		rainMusic.play(); // запускает при старте приложения
 
+		hearts = new Array<Rectangle>();
+
+		heart11 = new Rectangle();
+		heart11.x = 770 - 16/2;
+		heart11.y = 455;
+		heart11.width = 16;
+		heart11.height = 16;
+		hearts.add(heart11);
+
+		heart21 = new Rectangle();
+		heart21.x = 750 - 16/2;
+		heart21.y = 455;
+		heart21.width = 16;
+		heart21.height = 16;
+		hearts.add(heart21);
+
+		heart31 = new Rectangle();
+		heart31.x = 730 - 16/2;
+		heart31.y = 455;
+		heart31.width = 16;
+		heart31.height = 16;
+		hearts.add(heart31);
+
+
 		bucket = new Rectangle(); // создание объекта Rectangle
 		bucket.x = 800 / 2 - 64 / 2; // размещаем ведро в центре экрана
 		bucket.y = 20; // и выше на 20 пикселей низа экрана
 		bucket.width = 64; // размеры ведра
 		bucket.height = 64;
 
+
 		raindrops = new Array<Rectangle>(); // создаем экземпляр массива капель
 		spawnRaindrop(); //  порождаем первую каплю
 
 	}
+
 
 	private void spawnRaindrop(){ // метод создания капли. Создает новый Rectangle, устанавливает в слуйчаной позиции в верхней часте экрана и добавляет его в массив raindrops
 		Rectangle raindrop = new Rectangle();
@@ -87,9 +120,12 @@ public class GameScreen implements Screen {  //релизуем интрефей
 		game.batch.draw(backgorund, 0, 0);
 		game.font.draw(game.batch, "Drops collect: " + dropsCollect, 0, 480); // сообщает о кол-ве пойманных капель
 		game.batch.draw(bucketImage, bucket.x, bucket.y); // отрисовываем наше ведро
+		for (Rectangle heart11 : hearts) {
+			game.batch.draw(heart1, heart11.x, heart11.y);
+
+		}
 		for(Rectangle raindrop: raindrops){ // отображение капель на экране
 			game.batch.draw(dropImage, raindrop.x, raindrop.y);
-
 		}
 		game.batch.end();
 
@@ -115,11 +151,19 @@ public class GameScreen implements Screen {  //релизуем интрефей
 		 * то мы ее удаляем из массива
 		 */
 		Iterator<Rectangle> iter = raindrops.iterator();
+		Iterator<Rectangle> iter1 = hearts.iterator();
 
-		while (iter.hasNext()){
+
+
+		while (iter.hasNext() && iter1.hasNext()){
+			Rectangle heart = iter1.next();
 			Rectangle raindrop = iter.next();
 			raindrop.y -= 200 * Gdx.graphics.getDeltaTime();
-			if (raindrop.y + 64 < 0) iter.remove();
+			if (raindrop.y + 64 < 0) {iter.remove(); iter1.remove(); i--; }
+			if (i==0) {
+				game.setScreen(new GameOverScreen(game));
+				dispose();
+			}
 			if (raindrop.overlaps(bucket)) { // если капля столкнулась с ведром overlaps проверяет пересечение треугольников
 				dropsCollect++; // пополняется счет собраных капель
 				dropSound.play(); // воспроизводится звук капли
@@ -127,7 +171,9 @@ public class GameScreen implements Screen {  //релизуем интрефей
 			}
 		}
 
-	}
+
+
+		}
 	
 	@Override
 	public void dispose () {
@@ -135,6 +181,7 @@ public class GameScreen implements Screen {  //релизуем интрефей
 		bucketImage.dispose();
 		dropSound.dispose();
 		rainMusic.dispose();
+		backgorund.dispose();
 
 	}
 
