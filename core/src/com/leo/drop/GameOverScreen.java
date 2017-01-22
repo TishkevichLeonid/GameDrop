@@ -16,11 +16,13 @@ public class GameOverScreen implements Screen {
     final Drop game;
     private final Texture gameOver;
     OrthographicCamera camera;
+    private Texture backgorund;
 
     public GameOverScreen(Drop gam) {
         this.game = gam;
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 480);
+        backgorund = new Texture("background.jpg");
         gameOver = new Texture("GameOver.png");
     }
 
@@ -39,9 +41,10 @@ public class GameOverScreen implements Screen {
 
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
-        game.batch.draw(gameOver, 0, 0);
-        game.font.draw(game.batch, "Toutch to start", 330, 100);
-        game.font.draw(game.batch, "Your score is: " + GameScreen.dropsCollect, 325, 150);
+        game.batch.draw(backgorund, 0, 0);
+        game.batch.draw(gameOver, 120, 180);
+        game.font.draw(game.batch, "Toutch to start", 350, 100);
+        game.font.draw(game.batch, "Your score is: " + GameScreen.dropsCollect, 345, 150);
         game.batch.end();
 
         if (Gdx.input.isTouched()){ // проверяем было ли прикосновение к экрану

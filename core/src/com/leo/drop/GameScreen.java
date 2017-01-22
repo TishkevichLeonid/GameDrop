@@ -145,7 +145,7 @@ public class GameScreen implements Screen {  //релизуем интрефей
 		if (bucket.x < 0) bucket.x = 0; // убеждаемся что ведро остается в переделах экрана
 		if (bucket.x > 800-64) bucket.x = 800 - 64; // убеждаемся что ведро остается в переделах экрана [2]
 
-		if (TimeUtils.nanoTime() - lastDropTime > 1000000000) spawnRaindrop(); // проверяет сколько времени прошло с прошлой капли и создает новую если нужно
+		if (TimeUtils.nanoTime() - lastDropTime > 700000000) spawnRaindrop(); // проверяет сколько времени прошло с прошлой капли и создает новую если нужно
 
 		/**
 		 * сделаем так что бы капли двигались с постоянной скоростью 200 пикселей в секунду, если капля находится ниже нижнего края экрана
@@ -158,7 +158,23 @@ public class GameScreen implements Screen {  //релизуем интрефей
 
 		while (iter.hasNext()) {
 			Rectangle raindrop = iter.next();
-			raindrop.y -= 200 * Gdx.graphics.getDeltaTime();
+			if (dropsCollet1 <= 10)  raindrop.y -= 180 * Gdx.graphics.getDeltaTime();
+			if (dropsCollet1 <= 12 & dropsCollet1 > 10)  raindrop.y -= 190 * Gdx.graphics.getDeltaTime();
+			if (dropsCollet1 <= 14 & dropsCollet1 > 12)  raindrop.y -= 200 * Gdx.graphics.getDeltaTime();
+			if (dropsCollet1 <= 16 & dropsCollet1 > 14)  raindrop.y -= 210 * Gdx.graphics.getDeltaTime();
+			if (dropsCollet1 <= 18 & dropsCollet1 > 16)  raindrop.y -= 220 * Gdx.graphics.getDeltaTime();
+			if (dropsCollet1 <= 20 & dropsCollet1 > 18)  raindrop.y -= 230 * Gdx.graphics.getDeltaTime();
+			if (dropsCollet1 <= 22 & dropsCollet1 > 20)  raindrop.y -= 235 * Gdx.graphics.getDeltaTime();
+			if (dropsCollet1 <= 24 & dropsCollet1 > 22)  raindrop.y -= 255 * Gdx.graphics.getDeltaTime();
+			if (dropsCollet1 <= 26 & dropsCollet1 > 24)  raindrop.y -= 280 * Gdx.graphics.getDeltaTime();
+			if (dropsCollet1 <= 28 & dropsCollet1 > 26)  raindrop.y -= 310 * Gdx.graphics.getDeltaTime();
+			if (dropsCollet1 <= 30 & dropsCollet1 > 28)  raindrop.y -= 340 * Gdx.graphics.getDeltaTime();
+			if (dropsCollet1 <= 32 & dropsCollet1 > 30)  raindrop.y -= 375 * Gdx.graphics.getDeltaTime();
+			if (dropsCollet1 <= 34 & dropsCollet1 > 32)  raindrop.y -= 410 * Gdx.graphics.getDeltaTime();
+			if (dropsCollet1 <= 36 & dropsCollet1 > 34)  raindrop.y -= 435 * Gdx.graphics.getDeltaTime();
+			if (dropsCollet1 <= 38 & dropsCollet1 > 36)  raindrop.y -= 480 * Gdx.graphics.getDeltaTime();
+			if (dropsCollet1 <= 40 & dropsCollet1 > 38)  raindrop.y -= 530 * Gdx.graphics.getDeltaTime();
+			if (dropsCollet1 > 40)  raindrop.y -= 600 * Gdx.graphics.getDeltaTime();
 			while (iter1.hasNext()) {
 				Rectangle heart = iter1.next();
 			}
